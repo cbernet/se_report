@@ -1,9 +1,10 @@
 import pandas as pd
-pd.set_option('max_colwidth', 200)
+pd.set_option('max_colwidth', 70)
     
-location = 'data/dump.csv'
+location = 'data/dump-user.csv'
 print 'reading'
-df = pd.read_csv(location)
+df = pd.read_csv(location, header=None,
+                 names=['path', 'ctime', 'atime', 'mtime', 'size'])
 df.info()
 
 # adding a user column by parsing the filename
@@ -11,9 +12,13 @@ print 'adding user'
 df['user'] = df['path'].str.split('/',expand=True)[8]
 
 # generating a size column (missing size at the moment)
-print 'generating size'
-import numpy as np
-df['size'] = np.random.randint(1,100, df.shape[0])
+##print 'generating size'
+##import numpy as np
+##df['size'] = np.random.randint(1,100, df.shape[0])
+
+# size in GB
+print 'computing size'
+df['size'] = df['size'] / 1024 / 1024 / 1024
 
 # directory
 df['dir'] = df['path'].str.extract('(.*)\/(.*)',expand=True)[0]
