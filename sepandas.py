@@ -44,4 +44,8 @@ res = group.agg({'size':'sum','adt':'max'}).sort_values(by=['user', 'size'],asce
 print res
 print res.loc['sviret']
 
+pu_group =  dlold.groupby(['user'])
+pu_res = pu_group.agg({'size':'sum'}).sort_values(by='size',ascending=False)
+print pu_res
+
 # need to find a way to get the last atime for each directory
